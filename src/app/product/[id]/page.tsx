@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import { Star } from 'lucide-react';
 import { AddToCartForm } from './_components/AddToCartForm';
 import { ImageGallery } from './_components/ImageGallery';
+import { Separator } from '@/components/ui/separator';
+import { ProductReviews } from './_components/ProductReviews';
 
 interface ProductPageProps {
   params: {
@@ -16,6 +18,11 @@ export default function ProductPage({ params }: ProductPageProps) {
   if (!product) {
     notFound();
   }
+  
+  const averageRating = product.reviews.length > 0
+    ? product.reviews.reduce((acc, review) => acc + review.rating, 0) / product.reviews.length
+    : product.rating;
+
 
   return (
     <div className="container mx-auto px-4 md:px-6 py-12">
@@ -29,10 +36,10 @@ export default function ProductPage({ params }: ProductPageProps) {
             <div className="flex items-center gap-2 mt-2">
                 <div className="flex items-center">
                     {[...Array(5)].map((_, i) => (
-                        <Star key={i} className={`w-5 h-5 ${i < Math.round(product.rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
+                        <Star key={i} className={`w-5 h-5 ${i < Math.round(averageRating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
                     ))}
                 </div>
-                <span className="text-sm text-muted-foreground">{product.rating} / 5</span>
+                <span className="text-sm text-muted-foreground">{averageRating.toFixed(1)} / 5 ({product.reviews.length} reviews)</span>
             </div>
           </div>
           <p className="text-3xl font-bold text-primary">&#8377;{product.price.toFixed(2)}</p>
@@ -43,6 +50,12 @@ export default function ProductPage({ params }: ProductPageProps) {
             <AddToCartForm product={product} />
           </div>
         </div>
+      </div>
+
+      <Separator className="my-12" />
+
+      <div>
+        <ProductReviews product={product} />
       </div>
     </div>
   );

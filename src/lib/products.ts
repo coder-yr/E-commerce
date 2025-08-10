@@ -1,3 +1,11 @@
+
+export interface Review {
+  id: string;
+  author: string;
+  rating: number;
+  comment: string;
+  date: string;
+}
 export interface Product {
   id: string;
   name: string;
@@ -8,6 +16,7 @@ export interface Product {
   category: string;
   featured: boolean;
   stock: number;
+  reviews: Review[];
 }
 
 const products: Product[] = [
@@ -26,6 +35,10 @@ const products: Product[] = [
     category: 'Apparel',
     featured: true,
     stock: 15,
+    reviews: [
+        { id: 'rev1', author: 'Priya S.', rating: 5, comment: 'Absolutely love this jacket! The quality is amazing for the price.', date: '2024-05-10'},
+        { id: 'rev2', author: 'Rohan M.', rating: 4, comment: 'Great fit and very stylish. The material is a bit stiff at first.', date: '2024-05-12'},
+    ],
   },
   {
     id: '2',
@@ -41,6 +54,11 @@ const products: Product[] = [
     category: 'Electronics',
     featured: true,
     stock: 30,
+    reviews: [
+        { id: 'rev3', author: 'Sneha K.', rating: 5, comment: 'Best headphones I have ever owned. The noise cancellation is next level.', date: '2024-04-22'},
+        { id: 'rev4', author: 'Arjun P.', rating: 5, comment: 'Incredible sound quality and very comfortable to wear for long periods.', date: '2024-04-25'},
+        { id: 'rev5', author: 'Vikram B.', rating: 4, comment: 'Great sound, but the app could be better.', date: '2024-05-01'},
+    ],
   },
   {
     id: '3',
@@ -55,6 +73,9 @@ const products: Product[] = [
     category: 'Accessories',
     featured: true,
     stock: 50,
+    reviews: [
+        { id: 'rev6', author: 'Meera V.', rating: 5, comment: 'So elegant and looks much more expensive than it is!', date: '2024-05-15'},
+    ],
   },
   {
     id: '4',
@@ -69,6 +90,7 @@ const products: Product[] = [
     category: 'Home Goods',
     featured: true,
     stock: 100,
+    reviews: [],
   },
   {
     id: '5',
@@ -83,6 +105,7 @@ const products: Product[] = [
     category: 'Apparel',
     featured: false,
     stock: 45,
+    reviews: [],
   },
   {
     id: '9',
@@ -98,6 +121,7 @@ const products: Product[] = [
     category: 'Sneakers',
     featured: false,
     stock: 22,
+    reviews: [],
   },
   {
     id: '10',
@@ -112,6 +136,7 @@ const products: Product[] = [
     category: 'Sneakers',
     featured: false,
     stock: 40,
+    reviews: [],
   },
   {
     id: '11',
@@ -127,6 +152,7 @@ const products: Product[] = [
     category: 'Sneakers',
     featured: false,
     stock: 75,
+    reviews: [],
   },
   {
     id: '12',
@@ -141,6 +167,7 @@ const products: Product[] = [
     category: 'Watches',
     featured: false,
     stock: 12,
+    reviews: [],
   },
   {
     id: '13',
@@ -155,6 +182,7 @@ const products: Product[] = [
     category: 'Watches',
     featured: false,
     stock: 35,
+    reviews: [],
   },
   {
     id: '14',
@@ -170,6 +198,7 @@ const products: Product[] = [
     category: 'Gaming',
     featured: false,
     stock: 50,
+    reviews: [],
   },
   {
     id: '15',
@@ -184,6 +213,7 @@ const products: Product[] = [
     category: 'Gaming',
     featured: false,
     stock: 20,
+    reviews: [],
   },
   {
     id: '16',
@@ -200,6 +230,7 @@ const products: Product[] = [
     category: 'Gaming',
     featured: false,
     stock: 30,
+    reviews: [],
   },
 ];
 
