@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ShoppingBag, Heart } from "lucide-react";
 import { useWishlist } from "@/hooks/useWishlist";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/useAuth";
 
 interface AddToCartFormProps {
   product: Product;
@@ -23,10 +24,15 @@ export function AddToCartForm({ product }: AddToCartFormProps) {
   const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
   const router = useRouter();
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const isInWishlist = wishlist.some((item) => item.id === product.id);
 
   const handleWishlistClick = () => {
+    if (!user) {
+      router.push("/login");
+      return;
+    }
     if (isInWishlist) {
       removeFromWishlist(product.id);
       toast({
@@ -54,6 +60,10 @@ export function AddToCartForm({ product }: AddToCartFormProps) {
   };
 
   const handleBuyNow = () => {
+    if (!user) {
+      router.push("/login");
+      return;
+    }
     addToCart(product, quantity);
     router.push('/cart');
   };

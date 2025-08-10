@@ -12,6 +12,8 @@ import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { useEffect, useState } from 'react';
+import { useAuth } from '@/hooks/useAuth';
+import { useRouter } from 'next/navigation';
 
 interface ProductCardProps {
   product: Product;
@@ -21,6 +23,8 @@ export function ProductCard({ product }: ProductCardProps) {
     const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
     const [isClient, setIsClient] = useState(false);
     const { toast } = useToast();
+    const { user } = useAuth();
+    const router = useRouter();
 
     useEffect(() => {
         setIsClient(true);
@@ -30,6 +34,10 @@ export function ProductCard({ product }: ProductCardProps) {
 
     const handleWishlistClick = (e: React.MouseEvent) => {
         e.preventDefault();
+        if (!user) {
+          router.push("/login");
+          return;
+        }
         if (isInWishlist) {
             removeFromWishlist(product.id);
              toast({

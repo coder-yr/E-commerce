@@ -6,6 +6,8 @@ import { useCart } from "@/hooks/useCart";
 import { Button } from "./ui/button";
 import { ShoppingCart } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 interface AddToCartButtonProps {
   product: Product;
@@ -16,8 +18,14 @@ interface AddToCartButtonProps {
 export function AddToCartButton({ product, quantity = 1, className }: AddToCartButtonProps) {
   const { addToCart } = useCart();
   const { toast } = useToast();
+  const { user } = useAuth();
+  const router = useRouter();
 
   const handleAddToCart = () => {
+    if (!user) {
+      router.push("/login");
+      return;
+    }
     addToCart(product, quantity);
     toast({
       title: "Added to cart!",
