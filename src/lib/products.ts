@@ -90,7 +90,10 @@ const products: Product[] = [
     category: 'Home Goods',
     featured: true,
     stock: 100,
-    reviews: [],
+    reviews: [
+      { id: 'rev7', author: 'Anjali R.', rating: 5, comment: 'Beautiful packaging and the teas are so fragrant and calming.', date: '2024-05-20'},
+      { id: 'rev8', author: 'Karan G.', rating: 4, comment: 'Good quality tea. A bit pricey but worth it for a gift.', date: '2024-05-21'},
+    ],
   },
   {
     id: '5',
@@ -105,7 +108,9 @@ const products: Product[] = [
     category: 'Apparel',
     featured: false,
     stock: 45,
-    reviews: [],
+    reviews: [
+        { id: 'rev9', author: 'Siddharth J.', rating: 5, comment: 'Excellent quality cotton and very comfortable to wear. The fit is perfect.', date: '2024-05-18'},
+    ],
   },
   {
     id: '9',
@@ -121,7 +126,10 @@ const products: Product[] = [
     category: 'Sneakers',
     featured: false,
     stock: 22,
-    reviews: [],
+    reviews: [
+        { id: 'rev10', author: 'Aditya R.', rating: 5, comment: 'These are just amazing. Classic look and super comfortable.', date: '2024-05-25'},
+        { id: 'rev11', author: 'Neha B.', rating: 5, comment: 'Bought them for my brother and he loves them! Great quality.', date: '2024-05-26'},
+    ],
   },
   {
     id: '10',
@@ -136,7 +144,10 @@ const products: Product[] = [
     category: 'Sneakers',
     featured: false,
     stock: 40,
-    reviews: [],
+    reviews: [
+        { id: 'rev12', author: 'Raj V.', rating: 4, comment: 'Really good for running, very lightweight. Support is decent.', date: '2024-05-11'},
+        { id: 'rev13', author: 'Ishita P.', rating: 5, comment: 'So comfortable for walking all day. And they look great!', date: '2024-05-14'},
+    ],
   },
   {
     id: '11',
@@ -152,7 +163,11 @@ const products: Product[] = [
     category: 'Sneakers',
     featured: false,
     stock: 75,
-    reviews: [],
+    reviews: [
+        { id: 'rev14', author: 'Aisha K.', rating: 5, comment: 'Perfect white sneakers. They are comfortable and easy to clean.', date: '2024-05-28'},
+        { id: 'rev15', author: 'Ravi S.', rating: 5, comment: 'Goes with everything. A true classic. Highly recommended.', date: '2024-05-29'},
+        { id: 'rev16', author: 'Sunita M.', rating: 4, comment: 'Good value for money. They crease a bit easily though.', date: '2024-05-30'},
+    ],
   },
   {
     id: '12',
@@ -167,7 +182,10 @@ const products: Product[] = [
     category: 'Watches',
     featured: false,
     stock: 12,
-    reviews: [],
+    reviews: [
+      { id: 'rev17', author: 'Arjun T.', rating: 5, comment: 'An absolute masterpiece. Worth every penny. The craftsmanship is impeccable.', date: '2024-05-22'},
+      { id: 'rev18', author: 'Nikhil C.', rating: 5, comment: 'Stunning watch, gets compliments everywhere I go.', date: '2024-05-23'},
+    ],
   },
   {
     id: '13',
@@ -182,7 +200,9 @@ const products: Product[] = [
     category: 'Watches',
     featured: false,
     stock: 35,
-    reviews: [],
+    reviews: [
+      { id: 'rev19', author: 'Vivek A.', rating: 5, comment: 'The leather is high quality and the watch has a great vintage feel. Love it.', date: '2024-05-19'},
+    ],
   },
   {
     id: '14',
@@ -198,7 +218,10 @@ const products: Product[] = [
     category: 'Gaming',
     featured: false,
     stock: 50,
-    reviews: [],
+    reviews: [
+        { id: 'rev20', author: 'GamerGuy88', rating: 5, comment: 'Awesome sound quality, my teammates can hear me clearly.', date: '2024-05-05'},
+        { id: 'rev21', author: 'Leena G.', rating: 4, comment: 'Very comfortable for long gaming sessions. Mic is decent.', date: '2024-05-08'},
+    ],
   },
   {
     id: '15',
@@ -213,7 +236,10 @@ const products: Product[] = [
     category: 'Gaming',
     featured: false,
     stock: 20,
-    reviews: [],
+    reviews: [
+      { id: 'rev22', author: 'ProGamer', rating: 5, comment: 'This chair saved my back. The lumbar support is fantastic.', date: '2024-05-24'},
+      { id: 'rev23', author: 'Ankit D.', rating: 4, comment: 'Solid chair, assembly was a bit tricky but worth it.', date: '2024-05-27'},
+    ],
   },
   {
     id: '16',
@@ -230,7 +256,10 @@ const products: Product[] = [
     category: 'Gaming',
     featured: false,
     stock: 30,
-    reviews: [],
+    reviews: [
+      { id: 'rev24', author: 'KeyMaster', rating: 5, comment: 'The clicky keys are so satisfying. RGB effects are brilliant!', date: '2024-05-16'},
+      { id: 'rev25', author: 'Divya S.', rating: 5, comment: 'Best keyboard I have ever used for gaming and typing.', date: '2024-05-17'},
+    ],
   },
 ];
 
