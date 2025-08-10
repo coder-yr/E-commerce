@@ -390,7 +390,7 @@ export const products: Product[] = [
     price: 1599.00,
     description: 'A potent Vitamin C serum that brightens skin, reduces dark spots, and boosts collagen for a youthful glow.',
     images: [
-      'https://images.pexels.com/photos/5612847/pexels-photo-5612847.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      'https://images-static.nykaa.com/media/catalog/product/2/f/2f64156769915195668_1.jpg',
       'https://placehold.co/600x600.png',
     ],
     rating: 4.8,

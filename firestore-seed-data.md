@@ -603,7 +603,7 @@ This file contains the sample data for your e-commerce application in JSON forma
     "price": 1599,
     "description": "A potent Vitamin C serum that brightens skin, reduces dark spots, and boosts collagen for a youthful glow.",
     "images": [
-      "https://images.pexels.com/photos/5612847/pexels-photo-5612847.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "https://images-static.nykaa.com/media/catalog/product/2/f/2f64156769915195668_1.jpg",
       "https://placehold.co/600x600.png"
     ],
     "rating": 4.8,
@@ -749,94 +749,5 @@ This file contains the sample data for your e-commerce application in JSON forma
   }
 ]
 ```
-
----
-
-## Users Collection (`users`)
-
-```json
-[
-  {
-    "id": "USR001",
-    "name": "John Doe",
-    "email": "john.d@example.com",
-    "orders": 5,
-    "totalSpent": "₹12,500"
-  },
-  {
-    "id": "USR002",
-    "name": "Jane Smith",
-    "email": "jane.s@example.com",
-    "orders": 2,
-    "totalSpent": "₹3,450"
-  },
-  {
-    "id": "USR003",
-    "name": "Ravi Kumar",
-    "email": "ravi.k@example.com",
-    "orders": 8,
-    "totalSpent": "₹25,800"
-  },
-  {
-    "id": "USR004",
-    "name": "Priya Sharma",
-    "email": "priya.s@example.com",
-    "orders": 1,
-    "totalSpent": "₹750"
-  },
-  {
-    "id": "USR005",
-    "name": "Amit Singh",
-    "email": "amit.s@example.com",
-    "orders": 12,
-    "totalSpent": "₹41,200"
-  }
-]
-```
-
----
-
-## Orders Collection (`orders`)
-
-```json
-[
-  {
-    "id": "ORD001",
-    "customer": "John Doe",
-    "date": "2024-05-01",
-    "status": "Fulfilled",
-    "total": "₹2,500.00"
-  },
-  {
-    "id": "ORD002",
-    "customer": "Jane Smith",
-    "date": "2024-05-02",
-    "status": "Pending",
-    "total": "₹1,250.50"
-  },
-  {
-    "id": "ORD003",
-    "customer": "Ravi Kumar",
-    "date": "2024-05-02",
-    "status": "Fulfilled",
-    "total": "₹4,800.00"
-  },
-  {
-    "id": "ORD004",
-    "customer": "Priya Sharma",
-    "date": "2024-05-03",
-    "status": "Cancelled",
-    "total": "₹750.00"
-  },
-  {
-    "id": "ORD005",
-    "customer": "Amit Singh",
-    "date": "2024-05-04",
-    "status": "Fulfilled",
-    "total": "₹3,200.75"
-  }
-]
-```
-
-    
+      
     
