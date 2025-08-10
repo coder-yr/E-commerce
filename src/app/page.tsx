@@ -8,7 +8,7 @@ import { ProductCarousel } from '@/components/ProductCarousel';
 export default async function Home() {
   const featuredProducts = await getFeaturedProducts();
   const sneakerProducts = await getProductsByCategory('Sneakers');
-  const gamingProducts = await getProductsByCategory('Gaming');
+  const electronicsProducts = await getProductsByCategory('Electronics');
   const homeDecorProducts = await getProductsByCategory('Home Decor');
 
   return (
@@ -81,13 +81,13 @@ export default async function Home() {
         <div className="container mx-auto px-4 md:px-6 text-center">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-4xl font-headline font-bold tracking-tight sm:text-5xl md:text-6xl">
-              Up to 50% off gaming gear
+              Level Up Your Tech
             </h2>
             <p className="mt-6 text-lg leading-8 text-primary-foreground/80">
-              Drop into your favorite games with headsets, controllers, and more from top brands.
+              From premium audio to smart home devices, find the best electronics here.
             </p>
             <div className="mt-10">
-               <ProductCarousel products={gamingProducts} />
+               <ProductCarousel products={electronicsProducts} />
             </div>
           </div>
         </div>
