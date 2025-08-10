@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -7,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useToast } from "@/hooks/use-toast";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -20,6 +21,7 @@ const formSchema = z.object({
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { toast } = useToast();
   const { auth } = useAuth();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -37,7 +39,8 @@ export default function LoginPage() {
         title: "Signed in!",
         description: "You have been successfully signed in.",
       });
-      router.push("/account");
+      const redirectUrl = searchParams.get('redirect') || '/account';
+      router.push(redirectUrl);
     } catch (error: any) {
       toast({
         title: "Uh oh! Something went wrong.",

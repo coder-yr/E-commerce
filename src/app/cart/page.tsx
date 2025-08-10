@@ -11,14 +11,26 @@ import { Separator } from "@/components/ui/separator";
 import { Trash2, ShoppingCart } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 export default function CartPage() {
   const { cart, updateQuantity, removeFromCart, totalPrice } = useCart();
   const [isClient, setIsClient] = useState(false);
+  const { user } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  const handleCheckout = () => {
+    if (!user) {
+      router.push('/login?redirect=/checkout');
+    } else {
+      router.push('/checkout');
+    }
+  }
 
   if (!isClient) {
     return (
@@ -80,7 +92,7 @@ export default function CartPage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button className="w-full" size="lg">Proceed to Checkout</Button>
+              <Button className="w-full" size="lg" onClick={handleCheckout}>Proceed to Checkout</Button>
             </CardFooter>
           </Card>
         </div>
