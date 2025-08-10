@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Search, ShoppingCart, User, Menu, LogOut, LogIn, UserPlus } from "lucide-react";
+import { Search, ShoppingCart, User, Menu, LogOut, LogIn, UserPlus, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/hooks/useCart";
@@ -133,6 +133,13 @@ export default function Header() {
                           <span>Profile</span>
                         </Link>
                       </DropdownMenuItem>
+                       <DropdownMenuItem asChild>
+                        <Link href="/admin">
+                          <LayoutDashboard className="mr-2 h-4 w-4" />
+                          <span>Admin</span>
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
                       <DropdownMenuItem onClick={signOut}>
                         <LogOut className="mr-2 h-4 w-4" />
                         <span>Log out</span>
