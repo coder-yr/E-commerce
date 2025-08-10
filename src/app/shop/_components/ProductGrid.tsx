@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useMemo } from "react";
@@ -37,6 +38,8 @@ export function ProductGrid({ products, categories }: ProductGridProps) {
         return [...filtered].sort((a, b) => b.rating - a.rating);
       case "featured":
       default:
+        // Assuming "featured" means original order for now
+        // You could sort by a `featured` property if it exists
         return filtered;
     }
   }, [products, sortOption, selectedCategory]);
@@ -70,6 +73,7 @@ export function ProductGrid({ products, categories }: ProductGridProps) {
                 ))}
               </RadioGroup>
             </div>
+            {/* Add more filters here like price range, etc. */}
           </div>
         </div>
       </aside>
