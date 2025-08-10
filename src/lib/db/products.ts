@@ -349,7 +349,57 @@ export const products: Product[] = [
         { id: 'rev33', author: 'Yogi Bear', rating: 5, comment: 'Great grip, even during hot yoga. And I love that it\'s eco-friendly!', date: '2024-06-08'},
     ],
   },
+  {
+    id: '22',
+    name: 'The Psychology of Money',
+    price: 599.00,
+    description: 'Timeless lessons on wealth, greed, and happiness by Morgan Housel. A must-read for anyone interested in personal finance.',
+    images: [
+      'https://images.pexels.com/photos/2228561/pexels-photo-2228561.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      'https://placehold.co/600x600.png',
+    ],
+    rating: 4.9,
+    category: 'Books',
+    featured: false,
+    stock: 150,
+    reviews: [
+      { id: 'rev34', author: 'Finance Bro', rating: 5, comment: 'Changed my perspective on money. Highly recommended!', date: '2024-06-10' },
+      { id: 'rev35', author: 'Investor Jane', rating: 5, comment: 'Simple, profound, and easy to read.', date: '2024-06-11' },
+    ],
+  },
+  {
+    id: '23',
+    name: 'Scented Soy Candle',
+    price: 1299.00,
+    description: 'A hand-poured soy wax candle with a calming lavender and chamomile scent. Perfect for creating a relaxing atmosphere.',
+    images: [
+      'https://images.pexels.com/photos/4202893/pexels-photo-4202893.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      'https://placehold.co/600x600.png',
+    ],
+    rating: 4.7,
+    category: 'Home Decor',
+    featured: false,
+    stock: 65,
+    reviews: [
+      { id: 'rev36', author: 'Relaxation Queen', rating: 5, comment: 'The scent is absolutely divine. So calming after a long day.', date: '2024-06-12' },
+    ],
+  },
+  {
+    id: '24',
+    name: 'Vitamin C Face Serum',
+    price: 1599.00,
+    description: 'A potent Vitamin C serum that brightens skin, reduces dark spots, and boosts collagen for a youthful glow.',
+    images: [
+      'https://images.pexels.com/photos/5612847/pexels-photo-5612847.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      'https://placehold.co/600x600.png',
+    ],
+    rating: 4.8,
+    category: 'Personal Care',
+    featured: false,
+    stock: 90,
+    reviews: [
+      { id: 'rev37', author: 'Skincare Addict', rating: 5, comment: 'My skin has never looked better. This serum is magic.', date: '2024-06-14' },
+      { id: 'rev38', author: 'Glowing Grace', rating: 4, comment: 'Good serum, but a little sticky on application.', date: '2024-06-15' },
+    ],
+  },
 ];
-
-    
-    
