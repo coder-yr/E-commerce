@@ -1,6 +1,7 @@
+
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,14 +10,47 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/useAuth";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getOrdersByUserId, type Order } from "@/lib/orders";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { getUsers } from "@/lib/users";
+
+// A mock function to get a sample User ID.
+// In a real app, you would get the user ID from your authentication system.
+// For now, we'll assign a sample user ID if the logged-in user is not the admin.
+const getSampleUserId = async (email: string) => {
+    if (email === 'admin@shopsphere.com') return null;
+    const users = await getUsers();
+    const mockUser = users.find(u => u.email.startsWith(email.split('@')[0]));
+    return mockUser ? mockUser.id : users[0].id; // Fallback to the first user
+};
 
 export default function AccountPage() {
   const { user, loading, signOut } = useAuth();
   const router = useRouter();
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [ordersLoading, setOrdersLoading] = useState(true);
 
   useEffect(() => {
     if (!loading && !user) {
       router.push("/login");
+    }
+    
+    if (user) {
+        const fetchOrders = async () => {
+            setOrdersLoading(true);
+            // This is a mock implementation. In a real app, the user's document
+            // in Firestore would contain their domain-specific ID.
+            const sampleUserId = await getSampleUserId(user.email!);
+            if (sampleUserId) {
+                const userOrders = await getOrdersByUserId(sampleUserId);
+                setOrders(userOrders);
+            }
+            setOrdersLoading(false);
+        };
+        fetchOrders();
     }
   }, [user, loading, router]);
 
@@ -70,10 +104,52 @@ export default function AccountPage() {
               <CardDescription>Here's a list of your past purchases.</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-12 text-muted-foreground">
-                <p>You have no past orders.</p>
-                <Button variant="link" asChild><a href="/shop">Start shopping</a></Button>
-              </div>
+                {ordersLoading ? (
+                    <div className="space-y-4">
+                        <Skeleton className="h-12 w-full" />
+                        <Skeleton className="h-12 w-full" />
+                        <Skeleton className="h-12 w-full" />
+                    </div>
+                ) : orders.length > 0 ? (
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Order ID</TableHead>
+                                <TableHead>Date</TableHead>
+                                <TableHead>Status</TableHead>
+                                <TableHead className="text-right">Total</TableHead>
+                                <TableHead className="text-right"></TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {orders.map((order) => (
+                                <TableRow key={order.id}>
+                                    <TableCell className="font-medium">{order.id}</TableCell>
+                                    <TableCell>{order.date}</TableCell>
+                                    <TableCell>
+                                        <Badge variant={order.status === 'Fulfilled' ? "default" : order.status === 'Pending' ? "secondary" : "destructive"}>
+                                            {order.status}
+                                        </Badge>
+                                    </TableCell>
+                                    <TableCell className="text-right">{order.total}</TableCell>
+                                    <TableCell className="text-right">
+                                        <Button variant="outline" size="sm" asChild>
+                                            <Link href={`/account/orders/${order.id}`}>
+                                                Track Order
+                                                <ArrowRight className="ml-2 h-4 w-4" />
+                                            </Link>
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                ) : (
+                    <div className="text-center py-12 text-muted-foreground">
+                        <p>You have no past orders.</p>
+                        <Button variant="link" asChild><a href="/shop">Start shopping</a></Button>
+                    </div>
+                )}
             </CardContent>
           </Card>
         </TabsContent>

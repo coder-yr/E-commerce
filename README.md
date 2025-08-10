@@ -6,7 +6,9 @@ ShopSphere is a full-stack, feature-rich e-commerce application built with a mod
 
 - **Dynamic Product Catalog**: Browse products by category, view featured items, and see detailed product pages with image galleries and customer reviews.
 - **Complete Shopping Cart**: A persistent shopping cart that lets users add, remove, and update item quantities.
+- **Wishlist Feature**: Allow users to save their favorite products for later.
 - **User Authentication**: Secure user sign-up and login functionality powered by Firebase Authentication.
+- **Order Tracking**: A dedicated page for users to track the status of their past orders.
 - **Protected Admin Dashboard**: A dedicated admin section (`/admin`) to manage products, view orders, and see a list of customers.
 - **Firebase Firestore Integration**: The application uses Firestore as its backend database to store and retrieve product, user, and order data dynamically.
 - **One-Click Database Seeding**: A convenient admin utility to populate the Firestore database with sample data from local files, making setup a breeze.
@@ -22,6 +24,7 @@ ShopSphere is a full-stack, feature-rich e-commerce application built with a mod
 - **UI Components**: [ShadCN UI](https://ui.shadcn.com/)
 - **Backend**: [Firebase](https://firebase.google.com/) (Authentication & Firestore)
 - **AI Integration**: [Genkit](https://firebase.google.com/docs/genkit) (ready for future AI features)
+- **Theming**: `next-themes` for easy light/dark mode implementation.
 
 ## Getting Started
 
