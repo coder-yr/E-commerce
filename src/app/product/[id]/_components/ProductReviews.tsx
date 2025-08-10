@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import type { Product, Review } from '@/lib/products';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
@@ -24,6 +24,23 @@ export function ProductReviews({ product }: ProductReviewsProps) {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
   const { toast } = useToast();
+  const [isClient, setIsClient] = useState(false);
+
+  const storageKey = `reviews_${product.id}`;
+
+  useEffect(() => {
+    setIsClient(true);
+    const savedReviews = localStorage.getItem(storageKey);
+    if (savedReviews) {
+      setReviews(JSON.parse(savedReviews));
+    }
+  }, [storageKey]);
+
+  useEffect(() => {
+    if(isClient) {
+        localStorage.setItem(storageKey, JSON.stringify(reviews));
+    }
+  }, [reviews, storageKey, isClient]);
 
   const handleReviewSubmit = (e: React.FormEvent) => {
     e.preventDefault();
