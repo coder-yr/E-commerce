@@ -42,7 +42,7 @@ export default function CartPage() {
             <CardContent className="space-y-4">
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span>₹{totalPrice.toFixed(2)}</span>
+                <span>&#8377;{totalPrice.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Shipping</span>
@@ -51,7 +51,7 @@ export default function CartPage() {
               <Separator />
               <div className="flex justify-between font-bold text-lg">
                 <span>Total</span>
-                <span>₹{totalPrice.toFixed(2)}</span>
+                <span>&#8377;{totalPrice.toFixed(2)}</span>
               </div>
             </CardContent>
             <CardFooter>
@@ -78,7 +78,7 @@ function CartItemCard({ item, updateQuantity, removeFromCart }: CartItemCardProp
         </div>
         <div className="flex-grow">
           <Link href={`/product/${item.id}`} className="font-semibold hover:text-primary">{item.name}</Link>
-          <p className="text-sm text-muted-foreground">₹{item.price.toFixed(2)}</p>
+          <p className="text-sm text-muted-foreground">&#8377;{item.price.toFixed(2)}</p>
         </div>
         <div className="flex items-center gap-4">
           <div className="flex items-center border rounded-md">
@@ -109,7 +109,7 @@ function CartItemCard({ item, updateQuantity, removeFromCart }: CartItemCardProp
               +
             </Button>
           </div>
-          <p className="font-semibold w-20 text-right">₹{(item.price * item.quantity).toFixed(2)}</p>
+          <p className="font-semibold w-20 text-right">&#8377;{(item.price * item.quantity).toFixed(2)}</p>
           <Button variant="ghost" size="icon" onClick={() => removeFromCart(item.id)}>
             <Trash2 className="h-5 w-5 text-destructive" />
           </Button>

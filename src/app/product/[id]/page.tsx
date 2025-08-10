@@ -42,7 +42,7 @@ export default function ProductPage({ params }: ProductPageProps) {
         <div className="flex flex-col justify-center">
           <h1 className="text-3xl md:text-4xl font-bold font-headline">{product.name}</h1>
           <div className="flex items-center gap-4 mt-4">
-            <p className="text-3xl font-bold text-primary">₹{product.price.toFixed(2)}</p>
+            <p className="text-3xl font-bold text-primary">&#8377;{product.price.toFixed(2)}</p>
             <div className="flex items-center gap-1 text-sm">
               <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
               <span>{product.rating} / 5</span>
