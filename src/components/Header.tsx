@@ -2,9 +2,8 @@
 "use client";
 
 import Link from "next/link";
-import { Search, ShoppingCart, User, Menu, LogOut, LogIn, UserPlus, LayoutDashboard, Heart } from "lucide-react";
+import { ShoppingCart, User, Menu, LogOut, LogIn, UserPlus, LayoutDashboard, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useCart } from "@/hooks/useCart";
 import { Badge } from "./ui/badge";
 import { useState, useEffect } from "react";
@@ -20,6 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ModeToggle } from "./ModeToggle";
 import { useWishlist } from "@/hooks/useWishlist";
+import { Search } from "./Search";
 
 
 export default function Header() {
@@ -98,16 +98,7 @@ export default function Header() {
 
         <div className="flex flex-1 items-center justify-end space-x-2">
           <div className="flex-1 sm:max-w-xs">
-            <form>
-              <div className="relative">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="search"
-                  placeholder="Search products..."
-                  className="w-full rounded-lg bg-card pl-8"
-                />
-              </div>
-            </form>
+            <Search />
           </div>
           <nav className="flex items-center">
             <Button variant="ghost" size="icon" asChild>

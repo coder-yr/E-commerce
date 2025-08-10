@@ -47,6 +47,20 @@ export async function getRelatedProducts(currentProductId: string, category: str
     return relatedProducts.slice(0, 4); // Return up to 4 related products
 }
 
+export async function searchProducts(searchTerm: string): Promise<Product[]> {
+    if (!searchTerm.trim()) {
+        return [];
+    }
+    const allProducts = await getProducts();
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+
+    return allProducts.filter(product => 
+        product.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+        product.category.toLowerCase().includes(lowerCaseSearchTerm) ||
+        product.description.toLowerCase().includes(lowerCaseSearchTerm)
+    );
+}
+
 export const getCategories = async (): Promise<string[]> => {
     const products = await getProducts();
     const categories = products.map(p => p.category);
