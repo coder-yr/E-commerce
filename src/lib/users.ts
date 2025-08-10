@@ -1,8 +1,10 @@
 
-import { collection, getDocs, query, where, limit } from 'firebase/firestore';
+import { collection, getDocs, query, where, limit, doc, setDoc } from 'firebase/firestore';
 import { getFirestore } from 'firebase/firestore';
 import { app } from './firebase';
-import type { User } from './db/users';
+import type { User as DbUser } from './db/users';
+
+export interface User extends DbUser {}
 
 const db = getFirestore(app);
 const usersCollection = collection(db, 'users');
@@ -10,6 +12,16 @@ const usersCollection = collection(db, 'users');
 export async function getUsers(): Promise<User[]> {
   const querySnapshot = await getDocs(usersCollection);
   return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as User));
+}
+
+export async function createUser(userData: User): Promise<void> {
+    const userRef = doc(db, "users", userData.id);
+    await setDoc(userRef, {
+        name: userData.name,
+        email: userData.email,
+        orders: userData.orders,
+        totalSpent: userData.totalSpent,
+    });
 }
 
 /**
@@ -40,6 +52,3 @@ export const getSampleUserId = async (email: string): Promise<string | null> => 
 
     return null;
 };
-
-
-export type { User };

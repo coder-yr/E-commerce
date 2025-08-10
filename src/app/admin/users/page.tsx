@@ -1,7 +1,7 @@
 
 "use client";
 
-import { MoreHorizontal, FileDown } from "lucide-react";
+import { MoreHorizontal, FileDown, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -27,27 +27,40 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getUsers, type User } from "@/lib/users";
-import { useEffect, useState } from "react";
+import { getUsers, searchUsers, type User } from "@/lib/users";
+import { useEffect, useState, useMemo } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Input } from "@/components/ui/input";
+import { useDebounce } from "@/hooks/useDebounce";
 
 export default function UsersPage() {
-    const [users, setUsers] = useState<User[]>([]);
+    const [allUsers, setAllUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState("");
+    const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
     useEffect(() => {
       const fetchUsers = async () => {
         setLoading(true);
         const fetchedUsers = await getUsers();
-        setUsers(fetchedUsers);
+        setAllUsers(fetchedUsers);
         setLoading(false);
       }
       fetchUsers();
     }, []);
 
+    const filteredUsers = useMemo(() => {
+      if (!debouncedSearchTerm) return allUsers;
+      const lowercasedTerm = debouncedSearchTerm.toLowerCase();
+      return allUsers.filter(user => 
+        user.name.toLowerCase().includes(lowercasedTerm) ||
+        user.email.toLowerCase().includes(lowercasedTerm)
+      );
+    }, [allUsers, debouncedSearchTerm]);
+
     const handleExport = () => {
       const headers = ["ID", "Name", "Email", "Orders", "Total Spent"];
-      const rows = users.map(u => [u.id, `"${u.name}"`, u.email, u.orders, `"${u.totalSpent}"`].join(','));
+      const rows = filteredUsers.map(u => [u.id, `"${u.name}"`, u.email, u.orders, `"${u.totalSpent}"`].join(','));
       const csvContent = "data:text/csv;charset=utf-8," + [headers.join(','), ...rows].join('\n');
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
@@ -60,15 +73,25 @@ export default function UsersPage() {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row justify-between items-center">
+      <CardHeader className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <CardTitle>Customers</CardTitle>
           <CardDescription>
             View and manage your customer base.
           </CardDescription>
         </div>
-        <div>
-           <Button size="sm" variant="outline" className="h-8 gap-1" onClick={handleExport}>
+        <div className="flex gap-2 w-full md:w-auto">
+           <div className="relative flex-1 md:flex-initial">
+             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+             <Input 
+                type="search"
+                placeholder="Search by name or email..."
+                className="pl-8"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+             />
+           </div>
+           <Button size="sm" variant="outline" className="h-9 gap-1" onClick={handleExport}>
                 <FileDown className="h-3.5 w-3.5" />
                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                   Export
@@ -98,7 +121,7 @@ export default function UsersPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {users.map((user) => (
+            {filteredUsers.map((user) => (
               <TableRow key={user.id}>
                 <TableCell>
                   <div className="flex items-center gap-4">
@@ -133,13 +156,20 @@ export default function UsersPage() {
                 </TableCell>
               </TableRow>
             ))}
+             {filteredUsers.length === 0 && !loading && (
+                <TableRow>
+                    <TableCell colSpan={5} className="h-24 text-center">
+                        No results found.
+                    </TableCell>
+                </TableRow>
+            )}
           </TableBody>
         </Table>
         )}
       </CardContent>
       <CardFooter>
         <div className="text-xs text-muted-foreground">
-          Showing <strong>1-{users.length}</strong> of <strong>{users.length}</strong> customers
+          Showing <strong>1-{filteredUsers.length}</strong> of <strong>{allUsers.length}</strong> customers
         </div>
       </CardFooter>
     </Card>

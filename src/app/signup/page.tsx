@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -12,6 +13,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useToast } from "@/hooks/use-toast";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useAuth } from "@/hooks/useAuth";
+import { createUser } from "@/lib/users";
 
 const formSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
@@ -38,14 +40,30 @@ export default function SignupPage() {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
       const user = userCredential.user;
+      
+      const fullName = `${values.firstName} ${values.lastName}`;
+      
+      // Update Firebase Auth profile
       await updateProfile(user, {
-        displayName: `${values.firstName} ${values.lastName}`,
+        displayName: fullName,
       });
+
+      // Create a document in the 'users' collection in Firestore
+      await createUser({
+        id: user.uid,
+        name: fullName,
+        email: values.email,
+        orders: 0,
+        totalSpent: "₹0.00"
+      });
+
       toast({
         title: "Account created!",
         description: "You have been successfully signed up.",
       });
+
       router.push("/account");
+
     } catch (error: any) {
       toast({
         title: "Uh oh! Something went wrong.",
