@@ -99,7 +99,7 @@ function CartItemCard({ item, updateQuantity, removeFromCart }: CartItemCardProp
   return (
      <Card className="flex items-center p-4">
         <div className="relative h-24 w-24 rounded-md overflow-hidden mr-4">
-          <Image src={item.images[0]} alt={item.name} fill className="object-cover" />
+          <Image src={item.images[0]} alt={item.name} fill className="object-cover" sizes="(max-width: 768px) 25vw, 10vw" />
         </div>
         <div className="flex-grow">
           <Link href={`/product/${item.id}`} className="font-semibold hover:text-primary">{item.name}</Link>
