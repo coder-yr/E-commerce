@@ -1,19 +1,55 @@
 
+"use client";
+
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Product } from '@/lib/products';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Star } from 'lucide-react';
+import { Star, Heart } from 'lucide-react';
 import { AddToCartButton } from './AddToCartButton';
+import { useWishlist } from '@/hooks/useWishlist';
+import { Button } from './ui/button';
+import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
+import { useEffect, useState } from 'react';
 
 interface ProductCardProps {
   product: Product;
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+    const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
+    const [isClient, setIsClient] = useState(false);
+    const { toast } = useToast();
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
+    const isInWishlist = isClient && wishlist.some((item) => item.id === product.id);
+
+    const handleWishlistClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        if (isInWishlist) {
+            removeFromWishlist(product.id);
+             toast({
+                title: "Removed from wishlist",
+                description: `${product.name} has been removed from your wishlist.`,
+                duration: 3000,
+            });
+        } else {
+            addToWishlist(product);
+            toast({
+                title: "Added to wishlist!",
+                description: `${product.name} has been added to your wishlist.`,
+                duration: 3000,
+            });
+        }
+    };
+
   return (
-    <Card className="w-full max-w-sm flex flex-col overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
-      <CardHeader className="p-0 border-b">
+    <Card className="w-full max-w-sm flex flex-col overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 group">
+      <CardHeader className="p-0 border-b relative">
         <Link href={`/product/${product.id}`} className="block">
           <div className="aspect-square w-full relative">
             <Image
@@ -26,6 +62,14 @@ export function ProductCard({ product }: ProductCardProps) {
             />
           </div>
         </Link>
+        <Button
+            variant="ghost"
+            size="icon"
+            className="absolute top-2 right-2 h-8 w-8 rounded-full bg-background/60 hover:bg-background/80"
+            onClick={handleWishlistClick}
+        >
+            <Heart className={cn("h-5 w-5 text-destructive", isInWishlist && "fill-destructive")} />
+        </Button>
       </CardHeader>
       <CardContent className="p-4 flex-grow">
         <Link href={`/product/${product.id}`} className="block">

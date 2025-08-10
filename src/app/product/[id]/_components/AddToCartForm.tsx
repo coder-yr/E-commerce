@@ -9,7 +9,9 @@ import { AddToCartButton } from "@/components/AddToCartButton";
 import { useCart } from "@/hooks/useCart";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { ShoppingBag } from "lucide-react";
+import { ShoppingBag, Heart } from "lucide-react";
+import { useWishlist } from "@/hooks/useWishlist";
+import { cn } from "@/lib/utils";
 
 interface AddToCartFormProps {
   product: Product;
@@ -18,9 +20,29 @@ interface AddToCartFormProps {
 export function AddToCartForm({ product }: AddToCartFormProps) {
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
+  const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
   const router = useRouter();
   const { toast } = useToast();
 
+  const isInWishlist = wishlist.some((item) => item.id === product.id);
+
+  const handleWishlistClick = () => {
+    if (isInWishlist) {
+      removeFromWishlist(product.id);
+      toast({
+        title: "Removed from wishlist",
+        description: `${product.name} has been removed from your wishlist.`,
+        duration: 3000,
+      });
+    } else {
+      addToWishlist(product);
+      toast({
+        title: "Added to wishlist!",
+        description: `${product.name} has been added to your wishlist.`,
+        duration: 3000,
+      });
+    }
+  };
 
   const handleQuantityChange = (change: number) => {
     setQuantity((prev) => {
@@ -69,6 +91,9 @@ export function AddToCartForm({ product }: AddToCartFormProps) {
         <Button onClick={handleBuyNow} variant="outline" className="flex-1">
             <ShoppingBag className="mr-2 h-5 w-5"/>
             Buy Now
+        </Button>
+         <Button variant="outline" size="icon" onClick={handleWishlistClick} className="h-11 w-11">
+            <Heart className={cn("h-5 w-5 text-destructive", isInWishlist && "fill-destructive")} />
         </Button>
       </div>
     </div>

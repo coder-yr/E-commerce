@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import { PT_Sans, Space_Grotesk } from 'next/font/google';
 import './globals.css';
@@ -7,6 +8,7 @@ import { CartProvider } from '@/context/CartContext';
 import { AuthProvider } from '@/context/AuthContext';
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { WishlistProvider } from '@/context/WishlistContext';
 
 const ptSans = PT_Sans({
   subsets: ['latin'],
@@ -58,11 +60,13 @@ export default function RootLayout({
         >
           <AuthProvider>
             <CartProvider>
-              <div className="relative flex min-h-screen flex-col">
-                <Header />
-                <main className="flex-1">{children}</main>
-              </div>
-              <Toaster />
+              <WishlistProvider>
+                <div className="relative flex min-h-screen flex-col">
+                  <Header />
+                  <main className="flex-1">{children}</main>
+                </div>
+                <Toaster />
+              </WishlistProvider>
             </CartProvider>
           </AuthProvider>
         </ThemeProvider>

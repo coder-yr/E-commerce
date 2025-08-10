@@ -1,7 +1,8 @@
+
 "use client";
 
 import Link from "next/link";
-import { Search, ShoppingCart, User, Menu, LogOut, LogIn, UserPlus, LayoutDashboard } from "lucide-react";
+import { Search, ShoppingCart, User, Menu, LogOut, LogIn, UserPlus, LayoutDashboard, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/hooks/useCart";
@@ -18,10 +19,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { ModeToggle } from "./ModeToggle";
+import { useWishlist } from "@/hooks/useWishlist";
 
 
 export default function Header() {
   const { cart } = useCart();
+  const { wishlist } = useWishlist();
   const { user, loading, signOut } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
@@ -31,6 +34,7 @@ export default function Header() {
   }, []);
 
   const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
+  const wishlistItemCount = wishlist.length;
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -106,6 +110,18 @@ export default function Header() {
             </form>
           </div>
           <nav className="flex items-center">
+            <Button variant="ghost" size="icon" asChild>
+              <Link href="/wishlist" aria-label="Wishlist">
+                <div className="relative">
+                  <Heart className="h-5 w-5" />
+                  {isClient && wishlistItemCount > 0 && (
+                    <Badge variant="destructive" className="absolute -top-2 -right-2 h-5 w-5 justify-center p-0 text-xs">
+                      {wishlistItemCount}
+                    </Badge>
+                  )}
+                </div>
+              </Link>
+            </Button>
             <Button variant="ghost" size="icon" asChild>
               <Link href="/cart" aria-label="Shopping Cart">
                 <div className="relative">
