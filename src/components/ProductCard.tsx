@@ -33,7 +33,7 @@ export function ProductCard({ product }: ProductCardProps) {
           </CardTitle>
         </Link>
         <div className="mt-2 flex items-center justify-between">
-          <p className="text-xl font-bold text-foreground">${product.price.toFixed(2)}</p>
+          <p className="text-xl font-bold text-foreground">₹{product.price.toFixed(2)}</p>
           <div className="flex items-center gap-1">
             <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
             <span className="text-sm text-muted-foreground">{product.rating}</span>
