@@ -16,7 +16,7 @@ const products: Product[] = [
     name: 'Classic Biker Jacket',
     price: 4999.00,
     description: 'A timeless biker jacket made from high-quality faux leather. Perfect for any occasion, offering both style and durability. Features multiple pockets and a comfortable inner lining.',
-    images: ['https://placehold.co/600x600.png', 'https://placehold.co/600x600.png'],
+    images: ['https://cdn.fynd.com/v2/falling-surf-7c8bb8/fyprod/wrkr/products/pictures/item/free/original/000000410499092004/jD16RqXjMT-1.jpg', 'https://placehold.co/600x600.png'],
     rating: 4.8,
     category: 'Apparel',
     featured: true,
