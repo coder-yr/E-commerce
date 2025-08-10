@@ -32,6 +32,7 @@ import { useEffect, useState, useMemo } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { useDebounce } from "@/hooks/useDebounce";
+import Link from "next/link";
 
 export default function UsersPage() {
     const [allUsers, setAllUsers] = useState<User[]>([]);
@@ -149,8 +150,12 @@ export default function UsersPage() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuItem>View Profile</DropdownMenuItem>
-                      <DropdownMenuItem>View Orders</DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href={`/account?userId=${user.id}`}>View Profile</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href={`/admin/orders?userId=${user.id}`}>View Orders</Link>
+                      </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>

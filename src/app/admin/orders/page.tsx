@@ -28,26 +28,41 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getOrders, type Order } from "@/lib/orders";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useSearchParams } from "next/navigation";
+import { getUserById, type User } from "@/lib/users";
+import Link from "next/link";
 
 export default function OrdersPage() {
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [allOrders, setAllOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const searchParams = useSearchParams();
+  const userId = searchParams.get('userId');
+  const [customer, setCustomer] = useState<User | null>(null);
 
   useEffect(() => {
     const fetchOrders = async () => {
       setLoading(true);
       const fetchedOrders = await getOrders();
-      setOrders(fetchedOrders);
+      setAllOrders(fetchedOrders);
+       if (userId) {
+          const user = await getUserById(userId);
+          setCustomer(user || null);
+       }
       setLoading(false);
     }
     fetchOrders();
-  }, []);
+  }, [userId]);
+
+  const filteredOrders = useMemo(() => {
+    if (!userId) return allOrders;
+    return allOrders.filter(order => order.userId === userId);
+  }, [allOrders, userId]);
 
   const handleExport = () => {
     const headers = ["ID", "Customer", "User ID", "Date", "Status", "Total"];
-    const rows = orders.map(o => [o.id, `"${o.customer}"`, o.userId, o.date, o.status, `"${o.total}"`].join(','));
+    const rows = filteredOrders.map(o => [o.id, `"${o.customer}"`, o.userId, o.date, o.status, `"${o.total}"`].join(','));
     const csvContent = "data:text/csv;charset=utf-8," + [headers.join(','), ...rows].join('\n');
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
@@ -60,11 +75,11 @@ export default function OrdersPage() {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row justify-between items-center">
+      <CardHeader className="flex flex-row justify-between items-start">
         <div>
-          <CardTitle>Orders</CardTitle>
+          <CardTitle>{customer ? `${customer.name}'s Orders` : 'Orders'}</CardTitle>
           <CardDescription>
-            Manage your orders and view their status.
+            {customer ? `Viewing all orders for ${customer.name}.` : 'Manage your orders and view their status.'}
           </CardDescription>
         </div>
         <div>
@@ -99,7 +114,7 @@ export default function OrdersPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {orders.map((order) => (
+            {filteredOrders.map((order) => (
               <TableRow key={order.id}>
                 <TableCell className="font-medium">{order.id}</TableCell>
                 <TableCell>{order.customer}</TableCell>
@@ -111,7 +126,7 @@ export default function OrdersPage() {
                 </TableCell>
                 <TableCell className="text-right">{order.total}</TableCell>
                 <TableCell>
-                  <DropdownMenu>
+                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button
                         aria-haspopup="true"
@@ -124,20 +139,29 @@ export default function OrdersPage() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuItem>View Details</DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href={`/account/orders/${order.id}`}>View Details</Link>
+                      </DropdownMenuItem>
                       <DropdownMenuItem>Update Status</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>
               </TableRow>
             ))}
+             {filteredOrders.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={6} className="h-24 text-center">
+                  No orders found.
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
         )}
       </CardContent>
       <CardFooter>
         <div className="text-xs text-muted-foreground">
-          Showing <strong>1-{orders.length}</strong> of <strong>{orders.length}</strong> orders
+          Showing <strong>1-{filteredOrders.length}</strong> of <strong>{filteredOrders.length}</strong> orders
         </div>
       </CardFooter>
     </Card>

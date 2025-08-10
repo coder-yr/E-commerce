@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -15,36 +15,63 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { getSampleUserId } from "@/lib/users";
+import { getSampleUserId, getUserById as fetchUser, User as UserType } from "@/lib/users";
 
 export default function AccountPage() {
-  const { user, loading, signOut } = useAuth();
+  const { user: authUser, loading: authLoading, signOut } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [orders, setOrders] = useState<Order[]>([]);
   const [ordersLoading, setOrdersLoading] = useState(true);
+  const [viewedUser, setViewedUser] = useState<UserType | null>(null);
+  const [pageLoading, setPageLoading] = useState(true);
+
+  const userIdFromQuery = searchParams.get('userId');
 
   useEffect(() => {
-    if (!loading && !user) {
-      router.push("/login");
-    }
-    
-    if (user) {
-        const fetchOrders = async () => {
-            setOrdersLoading(true);
-            // This is a mock implementation. In a real app, the user's document
-            // in Firestore would contain their domain-specific ID.
-            const sampleUserId = await getSampleUserId(user.email!);
-            if (sampleUserId) {
-                const userOrders = await getOrdersByUserId(sampleUserId);
-                setOrders(userOrders);
-            }
-            setOrdersLoading(false);
-        };
-        fetchOrders();
-    }
-  }, [user, loading, router]);
+    const initializePage = async () => {
+      setPageLoading(true);
 
-  if (loading || !user) {
+      if (authLoading) return; // Wait until auth state is resolved
+
+      let targetUser = authUser;
+      let targetUserId: string | null = authUser?.uid || null;
+
+      // Admin is viewing a specific user's profile
+      if (userIdFromQuery && authUser?.email === 'admin@shopsphere.com') {
+        const user = await fetchUser(userIdFromQuery);
+        if (user) {
+          setViewedUser(user);
+          targetUserId = user.id;
+        } else {
+          router.push('/admin/users'); // User not found
+          return;
+        }
+      } else if (!authUser) {
+        router.push("/login");
+        return;
+      } else {
+        setViewedUser(null); // Viewing own profile
+        targetUserId = authUser.uid;
+      }
+
+      if (targetUserId) {
+          const sampleUserId = await getSampleUserId(targetUser?.email || viewedUser!.email);
+          if (sampleUserId) {
+              const userOrders = await getOrdersByUserId(sampleUserId);
+              setOrders(userOrders);
+          }
+      }
+      setOrdersLoading(false);
+      setPageLoading(false);
+    };
+
+    initializePage();
+  }, [authUser, authLoading, router, userIdFromQuery]);
+
+  const user = viewedUser || (authUser ? { id: authUser.uid, name: authUser.displayName, email: authUser.email, orders:0, totalSpent: '' } : null);
+
+  if (pageLoading || authLoading || !user) {
     return (
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="mb-8">
@@ -56,11 +83,13 @@ export default function AccountPage() {
     );
   }
 
+  const isViewingOwnProfile = !viewedUser;
+
   return (
     <div className="container mx-auto px-4 md:px-6 py-12">
       <div className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-bold font-headline">My Account</h1>
-        <p className="text-muted-foreground">Manage your account settings and view order history.</p>
+        <h1 className="text-3xl md:text-4xl font-bold font-headline">{isViewingOwnProfile ? "My Account" : `${user.name}'s Account`}</h1>
+        <p className="text-muted-foreground">{isViewingOwnProfile ? 'Manage your account settings and view order history.' : `Viewing details for ${user.email}`}</p>
       </div>
 
       <Tabs defaultValue="profile" className="w-full">
@@ -77,13 +106,13 @@ export default function AccountPage() {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Name</Label>
-                <Input id="name" defaultValue={user.displayName || ""} />
+                <Input id="name" defaultValue={user.name || ""} disabled={!isViewingOwnProfile} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input id="email" type="email" defaultValue={user.email || ""} disabled />
               </div>
-              <Button>Save Changes</Button>
+              {isViewingOwnProfile && <Button>Save Changes</Button>}
             </CardContent>
           </Card>
         </TabsContent>
@@ -91,7 +120,7 @@ export default function AccountPage() {
           <Card>
             <CardHeader>
               <CardTitle>Order History</CardTitle>
-              <CardDescription>Here's a list of your past purchases.</CardDescription>
+              <CardDescription>Here's a list of past purchases.</CardDescription>
             </CardHeader>
             <CardContent>
                 {ordersLoading ? (
@@ -136,8 +165,8 @@ export default function AccountPage() {
                     </Table>
                 ) : (
                     <div className="text-center py-12 text-muted-foreground">
-                        <p>You have no past orders.</p>
-                        <Button variant="link" asChild><a href="/shop">Start shopping</a></Button>
+                        <p>This user has no past orders.</p>
+                         {isViewingOwnProfile && <Button variant="link" asChild><a href="/shop">Start shopping</a></Button>}
                     </div>
                 )}
             </CardContent>
@@ -146,7 +175,7 @@ export default function AccountPage() {
       </Tabs>
       
       <div className="mt-8">
-          <Button variant="destructive" onClick={signOut}>Log Out</Button>
+          {isViewingOwnProfile && <Button variant="destructive" onClick={signOut}>Log Out</Button>}
       </div>
     </div>
   );
