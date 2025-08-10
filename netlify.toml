@@ -1,0 +1,12 @@
+[build]
+  command = "next build"
+  publish = ".next"
+
+[build.environment]
+  # Add your Firebase and Genkit API keys here
+  # For example:
+  # NEXT_PUBLIC_FIREBASE_API_KEY = "your-api-key"
+  # GEMINI_API_KEY = "your-gemini-key"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
