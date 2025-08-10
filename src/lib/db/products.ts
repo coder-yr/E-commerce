@@ -328,8 +328,8 @@ export const products: Product[] = [
     featured: false,
     stock: 60,
     reviews: [
-      { id: 'rev31', author: 'Techie Tina', rating: 5, comment: 'Sound quality is surprisingly good for its size. The assistant is very responsive.', date: '2024-06-04'},
-      { id: 'rev32', author: 'Rahul K.', rating: 4, comment: 'Works well, but sometimes has trouble hearing me from across the room.', date: '2024-06-06'},
+        { id: 'rev31', author: 'Techie Tina', rating: 5, comment: 'Sound quality is surprisingly good for its size. The assistant is very responsive.', date: '2024-06-04'},
+        { id: 'rev32', author: 'Rahul K.', rating: 4, comment: 'Works well, but sometimes has trouble hearing me from across the room.', date: '2024-06-06'},
     ],
   },
   {
@@ -346,9 +346,10 @@ export const products: Product[] = [
     featured: false,
     stock: 55,
     reviews: [
-      { id: 'rev33', author: 'Yogi Bear', rating: 5, comment: 'Great grip, even during hot yoga. And I love that it\'s eco-friendly!', date: '2024-06-08'},
+        { id: 'rev33', author: 'Yogi Bear', rating: 5, comment: 'Great grip, even during hot yoga. And I love that it\'s eco-friendly!', date: '2024-06-08'},
     ],
   },
 ];
 
+    
     

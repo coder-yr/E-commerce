@@ -1,4 +1,5 @@
 
+
 # Firestore Seed Data
 
 This file contains the sample data for your e-commerce application in JSON format. You can use this data to populate your Firestore collections.
@@ -634,4 +635,5 @@ This file contains the sample data for your e-commerce application in JSON forma
 ]
 ```
 
+    
     
