@@ -1,7 +1,7 @@
-import { initializeApp, getApps, getApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { initializeApp, getApps, getApp, FirebaseApp } from "firebase/app";
+import { getAuth, Auth } from "firebase/auth";
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyAtuuAjbL9pKPw45XK8vWBPtRGqgg_PBwM",
   authDomain: "shopsphere-jz759.firebaseapp.com",
   projectId: "shopsphere-jz759",
@@ -10,8 +10,15 @@ const firebaseConfig = {
   appId: "1:70281079862:web:930139378f04cc30033c97",
 };
 
-// Initialize Firebase
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-const auth = getAuth(app);
+let app: FirebaseApp;
+let auth: Auth;
+
+if (getApps().length === 0) {
+  app = initializeApp(firebaseConfig);
+} else {
+  app = getApp();
+}
+
+auth = getAuth(app);
 
 export { app, auth };
