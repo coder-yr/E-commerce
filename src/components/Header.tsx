@@ -37,6 +37,8 @@ export default function Header() {
     { href: "/contact", label: "Contact" },
   ];
 
+  const isAdmin = user && user.email === 'admin@shopsphere.com';
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
@@ -133,12 +135,14 @@ export default function Header() {
                           <span>Profile</span>
                         </Link>
                       </DropdownMenuItem>
-                       <DropdownMenuItem asChild>
-                        <Link href="/admin">
-                          <LayoutDashboard className="mr-2 h-4 w-4" />
-                          <span>Admin</span>
-                        </Link>
-                      </DropdownMenuItem>
+                       {isAdmin && (
+                        <DropdownMenuItem asChild>
+                          <Link href="/admin">
+                            <LayoutDashboard className="mr-2 h-4 w-4" />
+                            <span>Admin</span>
+                          </Link>
+                        </DropdownMenuItem>
+                       )}
                       <DropdownMenuSeparator />
                       <DropdownMenuItem onClick={signOut}>
                         <LogOut className="mr-2 h-4 w-4" />

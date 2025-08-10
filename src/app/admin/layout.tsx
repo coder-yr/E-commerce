@@ -1,7 +1,7 @@
 
 "use client"
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Home, Package, ShoppingCart, Users, PanelLeft } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -16,6 +16,9 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { useAuth } from "@/hooks/useAuth";
+import { useEffect } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function AdminLayout({
   children,
@@ -23,6 +26,8 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const { user, loading } = useAuth();
+  const router = useRouter();
 
   const navItems = [
     { href: "/admin", label: "Dashboard", icon: Home },
@@ -30,6 +35,30 @@ export default function AdminLayout({
     { href: "/admin/orders", label: "Orders", icon: ShoppingCart },
     { href: "/admin/users", label: "Customers", icon: Users },
   ];
+
+  useEffect(() => {
+    if (!loading) {
+      if (!user || user.email !== 'admin@shopsphere.com') {
+        router.push('/');
+      }
+    }
+  }, [user, loading, router]);
+
+
+  if (loading || !user || user.email !== 'admin@shopsphere.com') {
+    return (
+       <div className="flex items-center justify-center h-screen">
+          <div className="flex flex-col items-center space-y-4">
+              <Skeleton className="h-12 w-12 rounded-full" />
+              <div className="space-y-2">
+                  <Skeleton className="h-4 w-[250px]" />
+                  <Skeleton className="h-4 w-[200px]" />
+              </div>
+          </div>
+      </div>
+    )
+  }
+
 
   return (
     <SidebarProvider>
