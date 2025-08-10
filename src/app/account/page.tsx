@@ -1,15 +1,29 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
+import { useAuth } from "@/hooks/useAuth";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function AccountPage() {
-  // This is a placeholder. In a real app, user data would come from an auth context.
-  const user = {
-    name: "John Doe",
-    email: "john.doe@example.com"
-  };
+  const { user, loading } = useRequireAuth();
+  const { signOut } = useAuth();
+
+  if (loading || !user) {
+    return (
+      <div className="container mx-auto px-4 md:px-6 py-12">
+        <div className="mb-8">
+          <Skeleton className="h-10 w-1/3" />
+          <Skeleton className="h-4 w-1/2 mt-2" />
+        </div>
+        <Skeleton className="w-full h-96" />
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 md:px-6 py-12">
@@ -32,11 +46,11 @@ export default function AccountPage() {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Name</Label>
-                <Input id="name" defaultValue={user.name} />
+                <Input id="name" defaultValue={user.displayName || ""} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" defaultValue={user.email} />
+                <Input id="email" type="email" defaultValue={user.email || ""} disabled />
               </div>
               <Button>Save Changes</Button>
             </CardContent>
@@ -59,7 +73,7 @@ export default function AccountPage() {
       </Tabs>
       
       <div className="mt-8">
-          <Button variant="destructive">Log Out</Button>
+          <Button variant="destructive" onClick={signOut}>Log Out</Button>
       </div>
     </div>
   );
