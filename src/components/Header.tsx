@@ -64,39 +64,43 @@ export default function Header() {
           </nav>
         </div>
 
-        <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-          <SheetTrigger asChild>
-            <Button
-              variant="ghost"
-              className="mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden"
-            >
-              <Menu className="h-6 w-6" />
-              <span className="sr-only">Toggle Menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="pr-0 pt-12">
-            <Link href="/" className="flex items-center mb-6" onClick={() => setIsMobileMenuOpen(false)}>
-              <span className="font-bold font-headline text-lg">ShopSphere</span>
-            </Link>
-            <div className="flex flex-col space-y-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-lg font-medium text-foreground/80 hover:text-foreground"
+        {isClient && (
+          <>
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden"
                 >
-                  {link.label}
+                  <Menu className="h-6 w-6" />
+                  <span className="sr-only">Toggle Menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="pr-0 pt-12">
+                <Link href="/" className="flex items-center mb-6" onClick={() => setIsMobileMenuOpen(false)}>
+                  <span className="font-bold font-headline text-lg">ShopSphere</span>
                 </Link>
-              ))}
+                <div className="flex flex-col space-y-4">
+                  {navLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="text-lg font-medium text-foreground/80 hover:text-foreground"
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+              </SheetContent>
+            </Sheet>
+            <div className="md:hidden flex-1">
+                <Link href="/" className="flex items-center space-x-2">
+                    <span className="font-bold font-headline text-lg">ShopSphere</span>
+                </Link>
             </div>
-          </SheetContent>
-        </Sheet>
-         <div className="md:hidden flex-1">
-            <Link href="/" className="flex items-center space-x-2">
-                <span className="font-bold font-headline text-lg">ShopSphere</span>
-            </Link>
-         </div>
+          </>
+        )}
 
 
         <div className="flex flex-1 items-center justify-end space-x-2">
