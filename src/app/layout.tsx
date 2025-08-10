@@ -6,6 +6,7 @@ import Header from '@/components/Header';
 import { CartProvider } from '@/context/CartContext';
 import { AuthProvider } from '@/context/AuthContext';
 import { Toaster } from '@/components/ui/toaster';
+import { ThemeProvider } from '@/components/ThemeProvider';
 
 const ptSans = PT_Sans({
   subsets: ['latin'],
@@ -49,15 +50,22 @@ export default function RootLayout({
           spaceGrotesk.variable
         )}
       >
-        <AuthProvider>
-          <CartProvider>
-            <div className="relative flex min-h-screen flex-col">
-              <Header />
-              <main className="flex-1">{children}</main>
-            </div>
-            <Toaster />
-          </CartProvider>
-        </AuthProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <AuthProvider>
+            <CartProvider>
+              <div className="relative flex min-h-screen flex-col">
+                <Header />
+                <main className="flex-1">{children}</main>
+              </div>
+              <Toaster />
+            </CartProvider>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

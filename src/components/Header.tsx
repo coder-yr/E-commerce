@@ -17,6 +17,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { ModeToggle } from "./ModeToggle";
 
 
 export default function Header() {
@@ -117,6 +118,7 @@ export default function Header() {
                 </div>
               </Link>
             </Button>
+            <ModeToggle />
              {!loading && (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

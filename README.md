@@ -11,6 +11,7 @@ ShopSphere is a full-stack, feature-rich e-commerce application built with a mod
 - **Firebase Firestore Integration**: The application uses Firestore as its backend database to store and retrieve product, user, and order data dynamically.
 - **One-Click Database Seeding**: A convenient admin utility to populate the Firestore database with sample data from local files, making setup a breeze.
 - **Modern & Responsive UI**: A sleek and fully responsive user interface built with Tailwind CSS and ShadCN UI components.
+- **Dark Mode Toggle**: Implement theme switching between light and dark modes.
 - **Server-Side Rendering (SSR)**: Built with the Next.js App Router for optimal performance and SEO.
 
 ## Tech Stack
