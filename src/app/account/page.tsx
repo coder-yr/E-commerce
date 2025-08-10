@@ -15,17 +15,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { getUsers } from "@/lib/users";
-
-// A mock function to get a sample User ID.
-// In a real app, you would get the user ID from your authentication system.
-// For now, we'll assign a sample user ID if the logged-in user is not the admin.
-const getSampleUserId = async (email: string) => {
-    if (email === 'admin@shopsphere.com') return null;
-    const users = await getUsers();
-    const mockUser = users.find(u => u.email.startsWith(email.split('@')[0]));
-    return mockUser ? mockUser.id : users[0].id; // Fallback to the first user
-};
+import { getSampleUserId } from "@/lib/users";
 
 export default function AccountPage() {
   const { user, loading, signOut } = useAuth();

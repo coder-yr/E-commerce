@@ -1,10 +1,11 @@
 
-import { getProductById } from '@/lib/products';
+import { getProductById, getRelatedProducts } from '@/lib/products';
 import { notFound } from 'next/navigation';
 import { AddToCartForm } from './_components/AddToCartForm';
 import { ImageGallery } from './_components/ImageGallery';
 import { Separator } from '@/components/ui/separator';
 import { ProductReviews } from './_components/ProductReviews';
+import { ProductCarousel } from '@/components/ProductCarousel';
 
 interface ProductPageProps {
   params: {
@@ -18,6 +19,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
   if (!product) {
     notFound();
   }
+
+  const relatedProducts = await getRelatedProducts(product.id, product.category);
   
   return (
     <div className="container mx-auto px-4 md:px-6 py-12">
@@ -45,6 +48,18 @@ export default async function ProductPage({ params }: ProductPageProps) {
       <div>
         <ProductReviews product={product} />
       </div>
+
+      {relatedProducts.length > 0 && (
+        <>
+          <Separator className="my-12" />
+          <div className="space-y-8">
+            <h2 className="text-3xl font-headline font-bold tracking-tighter sm:text-4xl">
+              You Might Also Like
+            </h2>
+            <ProductCarousel products={relatedProducts} />
+          </div>
+        </>
+      )}
     </div>
   );
 }

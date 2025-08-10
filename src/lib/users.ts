@@ -12,12 +12,18 @@ export async function getUsers(): Promise<User[]> {
   return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as User));
 }
 
-// A mock function to get a sample User ID for new orders.
-// In a real app, the user's domain-specific ID would be stored in their auth profile or a user document.
-// For now, we'll find a sample user based on their email.
+/**
+ * A mock function to get a sample User ID to associate with an order.
+ * In a real app, the user's domain-specific ID would be stored in their auth profile or a user document.
+ * This function is used to link guest checkouts or new sign-ups to one of the sample users.
+ * @param email The email of the user placing the order.
+ * @returns A sample user ID string, or null.
+ */
 export const getSampleUserId = async (email: string): Promise<string | null> => {
-    if (email === 'admin@shopsphere.com') return null; // Admins don't place orders in this demo
+    // Admins don't place orders in this demo
+    if (email === 'admin@shopsphere.com') return null; 
     
+    // Check if the user is one of the pre-defined sample users
     const q = query(usersCollection, where("email", "==", email), limit(1));
     const querySnapshot = await getDocs(q);
     
@@ -25,9 +31,14 @@ export const getSampleUserId = async (email: string): Promise<string | null> => 
         return querySnapshot.docs[0].id;
     }
     
-    // Fallback for newly signed up users not in the seed data
+    // Fallback for newly signed up users who are not in the seed data.
+    // We'll just assign them the first user's ID for demo purposes.
     const allUsersSnapshot = await getDocs(query(usersCollection, limit(1)));
-    return allUsersSnapshot.empty ? null : allUsersSnapshot.docs[0].id;
+    if (!allUsersSnapshot.empty) {
+        return allUsersSnapshot.docs[0].id;
+    }
+
+    return null;
 };
 
 

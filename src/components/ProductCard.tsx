@@ -11,7 +11,7 @@ import { useWishlist } from '@/hooks/useWishlist';
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 
@@ -32,7 +32,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
     const isInWishlist = isClient && wishlist.some((item) => item.id === product.id);
 
-    const handleWishlistClick = (e: React.MouseEvent) => {
+    const handleWishlistClick = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
         if (!user) {
           router.push("/login");
@@ -53,7 +53,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 duration: 3000,
             });
         }
-    };
+    }, [user, router, isInWishlist, removeFromWishlist, product, addToWishlist, toast]);
 
   return (
     <Card className="w-full max-w-sm flex flex-col overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 group">
