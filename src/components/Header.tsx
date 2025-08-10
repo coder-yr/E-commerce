@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/hooks/useCart";
 import { Badge } from "./ui/badge";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { useAuth } from "@/hooks/useAuth";
 import {
@@ -23,6 +23,12 @@ export default function Header() {
   const { cart } = useCart();
   const { user, loading, signOut } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+  
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
 
   const navLinks = [
@@ -100,7 +106,7 @@ export default function Header() {
               <Link href="/cart" aria-label="Shopping Cart">
                 <div className="relative">
                   <ShoppingCart className="h-5 w-5" />
-                  {itemCount > 0 && (
+                  {isClient && itemCount > 0 && (
                     <Badge variant="destructive" className="absolute -top-2 -right-2 h-5 w-5 justify-center p-0 text-xs">
                       {itemCount}
                     </Badge>
