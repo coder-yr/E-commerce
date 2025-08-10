@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -8,9 +9,33 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Trash2, ShoppingCart } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CartPage() {
   const { cart, updateQuantity, removeFromCart, totalPrice } = useCart();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return (
+        <div className="container mx-auto px-4 md:px-6 py-12">
+            <h1 className="text-3xl md:text-4xl font-bold font-headline mb-8"><Skeleton className="h-10 w-1/3" /></h1>
+            <div className="grid md:grid-cols-3 gap-8">
+                <div className="md:col-span-2 space-y-4">
+                    <Skeleton className="h-28 w-full" />
+                    <Skeleton className="h-28 w-full" />
+                </div>
+                <div className="md:col-span-1">
+                    <Skeleton className="h-64 w-full" />
+                </div>
+            </div>
+      </div>
+    );
+  }
 
   if (cart.length === 0) {
     return (
