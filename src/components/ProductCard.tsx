@@ -11,7 +11,7 @@ import { useWishlist } from '@/hooks/useWishlist';
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
-import { useEffect, useState, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 
@@ -53,7 +53,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 duration: 3000,
             });
         }
-    }, [user, router, isInWishlist, removeFromWishlist, product, addToWishlist, toast]);
+    }, [user, router, isInWishlist, removeFromWishlist, product.id, product.name, addToWishlist, toast]);
 
   return (
     <Card className="w-full max-w-sm flex flex-col overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 group">
