@@ -626,6 +626,126 @@ This file contains the sample data for your e-commerce application in JSON forma
         "date": "2024-06-15"
       }
     ]
+  },
+  {
+    "id": "25",
+    "name": "Canvas Tote Bag",
+    "price": 1299,
+    "description": "A stylish and durable canvas tote bag, perfect for everyday use, from grocery shopping to carrying your essentials.",
+    "images": [
+      "https://images.pexels.com/photos/934673/pexels-photo-934673.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "https://placehold.co/600x600.png"
+    ],
+    "rating": 4.7,
+    "category": "Accessories",
+    "featured": false,
+    "stock": 110,
+    "reviews": []
+  },
+  {
+    "id": "26",
+    "name": "Atomic Habits",
+    "price": 799,
+    "description": "An easy and proven way to build good habits and break bad ones by James Clear. A transformative book for personal development.",
+    "images": [
+      "https://images.pexels.com/photos/1112048/pexels-photo-1112048.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "https://placehold.co/600x600.png"
+    ],
+    "rating": 4.9,
+    "category": "Books",
+    "featured": false,
+    "stock": 200,
+    "reviews": []
+  },
+  {
+    "id": "27",
+    "name": "Modern Wall Clock",
+    "price": 3999,
+    "description": "A sleek and silent wall clock with a minimalist design, perfect for adding a modern touch to any room.",
+    "images": [
+      "https://images.pexels.com/photos/1906435/pexels-photo-1906435.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "https://placehold.co/600x600.png"
+    ],
+    "rating": 4.6,
+    "category": "Home Decor",
+    "featured": false,
+    "stock": 30,
+    "reviews": []
+  },
+  {
+    "id": "28",
+    "name": "Wireless Gaming Mouse",
+    "price": 4999,
+    "description": "High-precision wireless gaming mouse with customizable RGB lighting and programmable buttons for a competitive edge.",
+    "images": [
+      "https://images.pexels.com/photos/4316737/pexels-photo-4316737.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "https://placehold.co/600x600.png"
+    ],
+    "rating": 4.8,
+    "category": "Gaming",
+    "featured": false,
+    "stock": 45,
+    "reviews": []
+  },
+  {
+    "id": "29",
+    "name": "Smart Thermostat",
+    "price": 12999,
+    "description": "An intelligent thermostat that learns your schedule, programs itself, and helps you save energy. Control it from anywhere with your phone.",
+    "images": [
+      "https://images.pexels.com/photos/8947621/pexels-photo-8947621.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "https://placehold.co/600x600.png"
+    ],
+    "rating": 4.9,
+    "category": "Electronics",
+    "featured": false,
+    "stock": 25,
+    "reviews": []
+  },
+  {
+    "id": "30",
+    "name": "Decorative Throw Pillows (Set of 2)",
+    "price": 2499,
+    "description": "A set of two plush and stylish throw pillows to add comfort and a pop of color to your sofa or bed.",
+    "images": [
+      "https://images.pexels.com/photos/116915/pexels-photo-116915.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "https://placehold.co/600x600.png"
+    ],
+    "rating": 4.7,
+    "category": "Home Decor",
+    "featured": false,
+    "stock": 50,
+    "reviews": []
+  },
+  {
+    "id": "31",
+    "name": "Performance Running Sneakers",
+    "price": 9999,
+    "description": "Engineered for speed and comfort, these running sneakers feature advanced cushioning and a breathable mesh upper.",
+    "images": [
+      "https://images.pexels.com/photos/2385477/pexels-photo-2385477.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "https://placehold.co/600x600.png"
+    ],
+    "rating": 4.8,
+    "category": "Sneakers",
+    "featured": false,
+    "stock": 35,
+    "reviews": []
+  },
+  {
+    "id": "32",
+    "name": "Where the Crawdads Sing",
+    "price": 899,
+    "description": "A heartbreaking coming-of-age story and a surprising tale of possible murder by Delia Owens. An instant classic.",
+    "images": [
+      "https://images.pexels.com/photos/46274/pexels-photo-46274.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "https://placehold.co/600x600.png"
+    ],
+    "rating": 4.9,
+    "category": "Books",
+    "featured": false,
+    "stock": 180,
+    "reviews": []
   }
 ]
 ```
