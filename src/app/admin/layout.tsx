@@ -2,7 +2,7 @@
 "use client"
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Home, Package, ShoppingCart, Users, PanelLeft } from "lucide-react";
+import { Home, Package, ShoppingCart, Users, PanelLeft, Database } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -34,6 +34,7 @@ export default function AdminLayout({
     { href: "/admin/products", label: "Products", icon: Package },
     { href: "/admin/orders", label: "Orders", icon: ShoppingCart },
     { href: "/admin/users", label: "Customers", icon: Users },
+    { href: "/admin/seed-database", label: "Seed Database", icon: Database },
   ];
 
   useEffect(() => {
