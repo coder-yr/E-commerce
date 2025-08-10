@@ -19,12 +19,15 @@ interface ProductReviewsProps {
 
 export function ProductReviews({ product }: ProductReviewsProps) {
   const { user } = useAuth();
+  const [reviews, setReviews] = useState<Review[]>(product.reviews);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
   const { toast } = useToast();
 
   const handleReviewSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!user) return;
+
     if (rating === 0 || comment.trim() === '') {
         toast({
             title: "Incomplete review",
@@ -33,13 +36,18 @@ export function ProductReviews({ product }: ProductReviewsProps) {
         })
       return;
     }
+
+    const newReview: Review = {
+        id: `rev_${Date.now()}`,
+        author: user.displayName || 'Anonymous',
+        rating,
+        comment,
+        date: new Date().toISOString(),
+    }
+
     // In a real app, you would submit this to your backend
-    console.log({
-      productId: product.id,
-      userId: user?.uid,
-      rating,
-      comment,
-    });
+    setReviews(prevReviews => [newReview, ...prevReviews]);
+    
     toast({
         title: "Review submitted!",
         description: "Thank you for your feedback."
@@ -54,9 +62,9 @@ export function ProductReviews({ product }: ProductReviewsProps) {
             <CardTitle className="font-headline text-2xl">Customer Reviews</CardTitle>
         </CardHeader>
         <CardContent>
-            {product.reviews.length > 0 ? (
+            {reviews.length > 0 ? (
                 <div className="space-y-6">
-                    {product.reviews.map((review) => (
+                    {reviews.map((review) => (
                         <div key={review.id} className="flex gap-4">
                             <Avatar>
                                 <AvatarImage src={`https://avatar.vercel.sh/${review.author}.png`} />
