@@ -13,6 +13,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useToast } from "@/hooks/use-toast";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useAuth } from "@/hooks/useAuth";
+import { createUser, getUserById } from "@/lib/users";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -34,7 +35,22 @@ export default function LoginPage() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await signInWithEmailAndPassword(auth, values.email, values.password);
+      const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
+      const user = userCredential.user;
+
+      // Check if user exists in Firestore 'users' collection
+      const userDoc = await getUserById(user.uid);
+      if (!userDoc) {
+        // If not, create them. This handles users who authenticated but don't have a DB entry.
+        await createUser({
+          id: user.uid,
+          name: user.displayName || 'New User',
+          email: user.email!,
+          orders: 0,
+          totalSpent: "₹0.00"
+        });
+      }
+
       toast({
         title: "Signed in!",
         description: "You have been successfully signed in.",

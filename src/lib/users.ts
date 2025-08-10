@@ -1,5 +1,5 @@
 
-import { collection, getDocs, query, where, limit, doc, setDoc } from 'firebase/firestore';
+import { collection, getDocs, query, where, limit, doc, setDoc, getDoc } from 'firebase/firestore';
 import { getFirestore } from 'firebase/firestore';
 import { app } from './firebase';
 import type { User as DbUser } from './db/users';
@@ -16,13 +16,24 @@ export async function getUsers(): Promise<User[]> {
 
 export async function createUser(userData: User): Promise<void> {
     const userRef = doc(db, "users", userData.id);
+    // Use setDoc with merge:true to create or update, preventing overwrite
     await setDoc(userRef, {
         name: userData.name,
         email: userData.email,
         orders: userData.orders,
         totalSpent: userData.totalSpent,
-    });
+    }, { merge: true });
 }
+
+export async function getUserById(id: string): Promise<User | undefined> {
+    const docRef = doc(db, "users", id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return { id: docSnap.id, ...docSnap.data() } as User;
+    }
+    return undefined;
+}
+
 
 /**
  * A mock function to get a sample User ID to associate with an order.
