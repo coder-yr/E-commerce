@@ -1,13 +1,14 @@
+
 import Link from 'next/link';
 import { getFeaturedProducts, getProductsByCategory } from '@/lib/products';
 import { Button } from '@/components/ui/button';
 import { ProductCard } from '@/components/ProductCard';
 import { ProductCarousel } from '@/components/ProductCarousel';
 
-export default function Home() {
-  const featuredProducts = getFeaturedProducts();
-  const sneakerProducts = getProductsByCategory('Sneakers');
-  const gamingProducts = getProductsByCategory('Gaming');
+export default async function Home() {
+  const featuredProducts = await getFeaturedProducts();
+  const sneakerProducts = await getProductsByCategory('Sneakers');
+  const gamingProducts = await getProductsByCategory('Gaming');
 
   return (
     <div className="flex flex-col">

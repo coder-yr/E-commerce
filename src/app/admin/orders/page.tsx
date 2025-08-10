@@ -25,9 +25,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { orders } from "@/lib/db/orders";
+import { getOrders } from "@/lib/orders";
 
-export default function OrdersPage() {
+export default async function OrdersPage() {
+  const orders = await getOrders();
   return (
     <Card>
       <CardHeader>

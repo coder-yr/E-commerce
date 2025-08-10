@@ -1,9 +1,10 @@
+
 import { getProducts, getCategories } from "@/lib/products";
 import { ProductGrid } from "./_components/ProductGrid";
 
-export default function ShopPage() {
-  const products = getProducts();
-  const categories = getCategories();
+export default async function ShopPage() {
+  const products = await getProducts();
+  const categories = await getCategories();
 
   return (
     <div className="container mx-auto px-4 md:px-6 py-8">

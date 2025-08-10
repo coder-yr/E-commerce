@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import { MoreHorizontal, PlusCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -27,8 +28,8 @@ import {
 } from "@/components/ui/table";
 import { getProducts } from "@/lib/products";
 
-export default function ProductsPage() {
-  const products = getProducts();
+export default async function ProductsPage() {
+  const products = await getProducts();
   return (
     <Card>
       <CardHeader className="flex flex-row justify-between items-center">

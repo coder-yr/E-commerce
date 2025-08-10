@@ -1,3 +1,4 @@
+
 import { getProductById } from '@/lib/products';
 import { notFound } from 'next/navigation';
 import { AddToCartForm } from './_components/AddToCartForm';
@@ -11,8 +12,8 @@ interface ProductPageProps {
   };
 }
 
-export default function ProductPage({ params }: ProductPageProps) {
-  const product = getProductById(params.id);
+export default async function ProductPage({ params }: ProductPageProps) {
+  const product = await getProductById(params.id);
 
   if (!product) {
     notFound();
