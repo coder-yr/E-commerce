@@ -79,15 +79,22 @@ export function ProductReviews({ product }: ProductReviewsProps) {
   }, [reviews]);
 
   const ratingDistribution = useMemo(() => {
-    const distribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
-    if (reviews.length === 0) return distribution;
+    const distribution: Record<number, number> = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+    if (reviews.length === 0) {
+      return Object.entries(distribution).map(([star, count]) => ({ star, percentage: 0}));
+    }
+
     for (const review of reviews) {
-        (distribution as any)[review.rating]++;
+      if (distribution[review.rating] !== undefined) {
+        distribution[review.rating]++;
+      }
     }
-    for (const key in distribution) {
-        (distribution as any)[key] = ((distribution as any)[key] / reviews.length) * 100;
-    }
-    return distribution;
+    
+    return Object.entries(distribution).map(([star, count]) => ({
+      star: parseInt(star, 10),
+      percentage: (count / reviews.length) * 100
+    })).reverse();
+
   }, [reviews]);
 
   return (
@@ -107,7 +114,7 @@ export function ProductReviews({ product }: ProductReviewsProps) {
                     <p className="text-muted-foreground">{reviews.length} global ratings</p>
                 </div>
                 <div className="md:col-span-2 space-y-2">
-                    {Object.entries(ratingDistribution).reverse().map(([star, percentage]) => (
+                    {ratingDistribution.map(({star, percentage}) => (
                         <div key={star} className="flex items-center gap-2">
                             <span className="text-sm text-muted-foreground w-12">{star} star</span>
                             <Progress value={percentage} className="h-2 flex-1" />

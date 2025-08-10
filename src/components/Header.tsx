@@ -92,12 +92,15 @@ export default function Header() {
             </div>
           </SheetContent>
         </Sheet>
-         <Link href="/" className="flex items-center space-x-2 md:hidden">
-            <span className="font-bold font-headline text-lg">ShopSphere</span>
-          </Link>
+         <div className="md:hidden flex-1">
+            <Link href="/" className="flex items-center space-x-2">
+                <span className="font-bold font-headline text-lg">ShopSphere</span>
+            </Link>
+         </div>
+
 
         <div className="flex flex-1 items-center justify-end space-x-2">
-          <div className="flex-1 sm:max-w-xs">
+          <div className="hidden sm:block flex-1 sm:max-w-xs">
             <Search />
           </div>
           <nav className="flex items-center">

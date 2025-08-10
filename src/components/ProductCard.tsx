@@ -56,7 +56,7 @@ export function ProductCard({ product }: ProductCardProps) {
     }, [user, router, isInWishlist, removeFromWishlist, product.id, product.name, addToWishlist, toast]);
 
   return (
-    <Card className="w-full max-w-sm flex flex-col overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 group">
+    <Card className="w-full h-full flex flex-col overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 group">
       <CardHeader className="p-0 border-b relative">
         <Link href={`/product/${product.id}`} className="block">
           <div className="aspect-square w-full relative">
@@ -79,8 +79,8 @@ export function ProductCard({ product }: ProductCardProps) {
             <Heart className={cn("h-5 w-5 text-destructive", isInWishlist && "fill-destructive")} />
         </Button>
       </CardHeader>
-      <CardContent className="p-4 flex-grow">
-        <Link href={`/product/${product.id}`} className="block">
+      <CardContent className="p-4 flex-grow flex flex-col">
+        <Link href={`/product/${product.id}`} className="block flex-grow">
           <CardTitle className="text-lg font-semibold font-headline tracking-tight hover:text-primary transition-colors">
             {product.name}
           </CardTitle>
@@ -94,7 +94,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
       </CardContent>
       <CardFooter className="p-4 pt-0">
-        <AddToCartButton product={product} />
+        <AddToCartButton product={product} className="w-full" />
       </CardFooter>
     </Card>
   );
