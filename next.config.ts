@@ -21,6 +21,24 @@ const nextConfig: NextConfig = {
         hostname: 'cdn.fynd.com',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.thewirecutter.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.meesho.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'jivisa.in',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
