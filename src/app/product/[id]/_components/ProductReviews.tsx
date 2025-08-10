@@ -1,17 +1,18 @@
 
 "use client";
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import type { Product, Review } from '@/lib/products';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
-import { Star, User } from 'lucide-react';
+import { Star } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
+import { Progress } from '@/components/ui/progress';
 
 interface ProductReviewsProps {
   product: Product;
@@ -45,7 +46,6 @@ export function ProductReviews({ product }: ProductReviewsProps) {
         date: new Date().toISOString(),
     }
 
-    // In a real app, you would submit this to your backend
     setReviews(prevReviews => [newReview, ...prevReviews]);
     
     toast({
@@ -55,6 +55,23 @@ export function ProductReviews({ product }: ProductReviewsProps) {
     setRating(0);
     setComment('');
   };
+  
+  const averageRating = useMemo(() => {
+    if (reviews.length === 0) return 0;
+    return reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length;
+  }, [reviews]);
+
+  const ratingDistribution = useMemo(() => {
+    const distribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+    if (reviews.length === 0) return distribution;
+    for (const review of reviews) {
+        (distribution as any)[review.rating]++;
+    }
+    for (const key in distribution) {
+        (distribution as any)[key] = ((distribution as any)[key] / reviews.length) * 100;
+    }
+    return distribution;
+  }, [reviews]);
 
   return (
     <Card>
@@ -62,6 +79,29 @@ export function ProductReviews({ product }: ProductReviewsProps) {
             <CardTitle className="font-headline text-2xl">Customer Reviews</CardTitle>
         </CardHeader>
         <CardContent>
+            <div className="grid md:grid-cols-3 gap-8 mb-8">
+                <div className="md:col-span-1 flex flex-col items-center justify-center text-center">
+                    <p className="text-5xl font-bold font-headline">{averageRating.toFixed(1)}</p>
+                    <div className="flex items-center my-2">
+                        {[...Array(5)].map((_, i) => (
+                            <Star key={i} className={`h-6 w-6 ${i < Math.round(averageRating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
+                        ))}
+                    </div>
+                    <p className="text-muted-foreground">{reviews.length} global ratings</p>
+                </div>
+                <div className="md:col-span-2 space-y-2">
+                    {Object.entries(ratingDistribution).reverse().map(([star, percentage]) => (
+                        <div key={star} className="flex items-center gap-2">
+                            <span className="text-sm text-muted-foreground w-12">{star} star</span>
+                            <Progress value={percentage} className="h-2 flex-1" />
+                            <span className="text-sm text-muted-foreground w-10 text-right">{Math.round(percentage)}%</span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <Separator className="my-8" />
+            
             {reviews.length > 0 ? (
                 <div className="space-y-6">
                     {reviews.map((review) => (

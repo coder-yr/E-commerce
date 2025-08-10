@@ -1,6 +1,5 @@
 import { getProductById } from '@/lib/products';
 import { notFound } from 'next/navigation';
-import { Star } from 'lucide-react';
 import { AddToCartForm } from './_components/AddToCartForm';
 import { ImageGallery } from './_components/ImageGallery';
 import { Separator } from '@/components/ui/separator';
@@ -19,11 +18,6 @@ export default function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
   
-  const averageRating = product.reviews.length > 0
-    ? product.reviews.reduce((acc, review) => acc + review.rating, 0) / product.reviews.length
-    : product.rating;
-
-
   return (
     <div className="container mx-auto px-4 md:px-6 py-12">
       <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
@@ -33,14 +27,7 @@ export default function ProductPage({ params }: ProductPageProps) {
         <div className="flex flex-col justify-center space-y-6">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold font-headline">{product.name}</h1>
-            <div className="flex items-center gap-2 mt-2">
-                <div className="flex items-center">
-                    {[...Array(5)].map((_, i) => (
-                        <Star key={i} className={`w-5 h-5 ${i < Math.round(averageRating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
-                    ))}
-                </div>
-                <span className="text-sm text-muted-foreground">{averageRating.toFixed(1)} / 5 ({product.reviews.length} reviews)</span>
-            </div>
+            <p className="text-sm text-muted-foreground mt-2">Category: {product.category}</p>
           </div>
           <p className="text-3xl font-bold text-primary">&#8377;{product.price.toFixed(2)}</p>
           
