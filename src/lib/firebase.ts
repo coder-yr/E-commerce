@@ -2,12 +2,12 @@ import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  apiKey: "AIzaSyAtuuAjbL9pKPw45XK8vWBPtRGqgg_PBwM",
+  authDomain: "shopsphere-jz759.firebaseapp.com",
+  projectId: "shopsphere-jz759",
+  storageBucket: "shopsphere-jz759.firebasestorage.app",
+  messagingSenderId: "70281079862",
+  appId: "1:70281079862:web:930139378f04cc30033c97",
 };
 
 // Initialize Firebase
