@@ -15,7 +15,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { getSampleUserId, getUserById as fetchUser, User as UserType } from "@/lib/users";
+import { getUserById as fetchUser, User as UserType } from "@/lib/users";
 
 export default function AccountPage() {
   const { user: authUser, loading: authLoading, signOut } = useAuth();
@@ -31,11 +31,12 @@ export default function AccountPage() {
   useEffect(() => {
     const initializePage = async () => {
       setPageLoading(true);
+      setOrdersLoading(true);
 
       if (authLoading) return; // Wait until auth state is resolved
 
-      let targetUser = authUser;
-      let targetUserId: string | null = authUser?.uid || null;
+      let targetUserId: string | null = null;
+      let userToFetchOrdersFor: UserType | null = null;
 
       // Admin is viewing a specific user's profile
       if (userIdFromQuery && authUser?.email === 'admin@shopsphere.com') {
@@ -43,6 +44,7 @@ export default function AccountPage() {
         if (user) {
           setViewedUser(user);
           targetUserId = user.id;
+          userToFetchOrdersFor = user;
         } else {
           router.push('/admin/users'); // User not found
           return;
@@ -51,17 +53,19 @@ export default function AccountPage() {
         router.push("/login");
         return;
       } else {
-        setViewedUser(null); // Viewing own profile
+        // Regular user viewing their own profile
+        setViewedUser(null); 
         targetUserId = authUser.uid;
+        userToFetchOrdersFor = { id: authUser.uid, name: authUser.displayName || '', email: authUser.email || '', orders: 0, totalSpent: '' };
       }
 
       if (targetUserId) {
-          const sampleUserId = await getSampleUserId(targetUser?.email || viewedUser!.email);
-          if (sampleUserId) {
-              const userOrders = await getOrdersByUserId(sampleUserId);
-              setOrders(userOrders);
-          }
+        const userOrders = await getOrdersByUserId(targetUserId);
+        setOrders(userOrders);
+      } else {
+        setOrders([]);
       }
+      
       setOrdersLoading(false);
       setPageLoading(false);
     };
